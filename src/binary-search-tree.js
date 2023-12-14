@@ -1,12 +1,9 @@
 const { NotImplementedError } = require('../extensions/index.js');
-
 const { Node } = require('../extensions/list-tree.js');
-
 /**
 * Implement simple binary search tree according to task description
 * using Node from extensions
 */
-
 class BinarySearchTree {
   constructor() {
     this.rootElement = null;
@@ -58,7 +55,6 @@ class BinarySearchTree {
   }
 
   find(data, node = this.rootElement) {
-
     if (!node) {
       return null;
     } else if (data < node.data) {
@@ -71,49 +67,67 @@ class BinarySearchTree {
   }
 
   remove(data) {
-    this.rootElement = this.removeNode(this.rootElement, data);
-  }
-  removeNode(node, data) {
-    if (!node) {
-      return null;
-    } else if (data < node.data) {
-      node.left = this.removeNode(node.left, data);
-      return node;
-    } else if (data > node.data) {
-      node.right = this.removeNode(node.right, data);
-      return node;
-    } else {
-      if (!node.left && !node.right) {
-        node = null;
+    this.rootElement = removeData(this.rootElement, data);
+
+    function removeData(node, data) {
+      if (!node) {
+        return null;
+      }
+
+      if (data < node.data) {
+        node.left = removeData(node.left, data);
+        return node;
+      } else if (data > node.data) {
+        node.right = removeData(node.right, data)
+        return node;
+      } else {
+        if (!node.left && !node.right) {
+          return null;
+        }
+        if (!node.left) {
+          node = node.right;
+          return node;
+        }
+
+        if (!node.right) {
+          node = node.left;
+          return node;
+        }
+
+        let minRight = node.right;
+        while (minRight.left) {
+          minRight = minRight.left;
+        }
+
+        node.data = minRight.data;
+
+        node.right = removeData(node.right, minRight.data)
         return node;
       }
-      if (!node.left) {
-        node = node.right;
-        return node;
-      } else if (!node.right) {
-        node = node.left;
-        return node;
-      }
-      let newNode = this.min(node.right);
-      node.data = newNode;
-      node.right = this.removeNode(node.right, newNode);
-      return node;
     }
   }
 
-  max(node = this.rootElement) {
-    if (!node.right) {
-      return node.data;
+  max() {
+    let max = this.rootElement;
+    if (!max.right) {
+      return max.data;
     } else {
-      return this.max(node.right);
+      while (max.right) {
+        max = max.right;
+      }
+      return max.data;
     }
   }
 
-  min(node = this.rootElement) {
-    if (!node.left) {
-      return node.data;
+  min() {
+    let min = this.rootElement;
+    if (!min.left) {
+      return min.data;
     } else {
-      return this.min(node.left);
+      while (min.left) {
+        min = min.left;
+      }
+      return min.data;
     }
   }
 }
