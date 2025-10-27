@@ -21,7 +21,7 @@ class Stack {
   }
 
   pop() {
-    if (this.data.concat.length == 0) {
+    if (this.data.length == 0) {
       return undefined;
     }
     return this.data.pop();
