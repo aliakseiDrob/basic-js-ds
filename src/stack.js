@@ -13,21 +13,25 @@ const { NotImplementedError } = require('../lib');
  *
  */
 class Stack {
-  push(/* value */) {
-    // Remove line below and write your code here
-    throw new NotImplementedError('Not implemented');
+  constructor() {
+    this.data = [];
+  }
+  push(element) {
+    this.data.push(element);
   }
 
   pop() {
-    // Remove line below and write your code here
-    throw new NotImplementedError('Not implemented');
+    if (this.data.length == 0) {
+      return undefined;
+    }
+    return this.data.pop();
   }
 
   peek() {
-    // Remove line below and write your code here
-    throw new NotImplementedError('Not implemented');
+    return this.data[this.data.length - 1];
   }
 }
+
 
 module.exports = {
   Stack,
